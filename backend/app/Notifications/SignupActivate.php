@@ -11,6 +11,8 @@ class SignupActivate extends Notification
 {
     use Queueable;
 
+    private $url = '/api/auth/signup/activate/';
+
     /**
      * Create a new notification instance.
      *
@@ -40,9 +42,11 @@ class SignupActivate extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url($this->url.$notifiable->activation_token);
         return (new MailMessage)
+                    ->subject('Confirm your account')
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('Notification Action',url($url))
                     ->line('Thank you for using our application!');
     }
 
