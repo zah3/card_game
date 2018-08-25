@@ -83,7 +83,8 @@ class UserController extends Controller{
             'time' => 2,
             'threads' => 2,
         ]);
-        $user = User::create($input);
+        //set activation token
+        $user = User::create(array_merge($input,['activation_token' => random_bytes(60)]));
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
         return response()->json(['success' => $success],Status::SUCCESS_OK);
