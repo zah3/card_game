@@ -12,6 +12,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\Status;
 use App\Http\Models\User;
+use App\Notifications\SignupActivate;
 use App\Providers\AuthServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -84,10 +85,23 @@ class UserController extends Controller{
             'threads' => 2,
         ]);
         //set activation token
-        $user = User::create(array_merge($input,['activation_token' => random_bytes(60)]));
+        $user = User::create(array_merge($input,['activation_token' => str_random(60)]));
+        $user->notify(new SignupActivate($user));
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
         return response()->json(['success' => $success],Status::SUCCESS_OK);
+    }
+
+    /**
+     * @param string $token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function activate(string $token){
+        $user = User::where('activation_token',$token)->first();
+        if(!$user){
+            return response()->json(['message' => __('messages.token_wrong')]);
+        }
+
     }
 
     /**
