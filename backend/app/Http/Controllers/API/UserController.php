@@ -19,6 +19,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{
     Auth,Hash,Validator
 };
+
+/**
+ * Class UserController
+ * @package App\Http\Controllers\API
+ */
 class UserController extends Controller{
 
     /**
@@ -40,9 +45,11 @@ class UserController extends Controller{
         ]);
 
         $credentials = request(['email', 'password']);
+        $credentials['is_active'] = 1;
+        $credentials['deleted_at'] = NULL;
         if(Auth::attempt($credentials)){
             $user = $request->user();
-            $tokenResult = $user->createToken('Card_game');
+            $tokenResult = $user->createToken(AuthServiceProvider::TOKEN_NAME);
             $token = $tokenResult->token;
             //expires time
             $token->expires_at = $request->remember_me ?
@@ -52,7 +59,7 @@ class UserController extends Controller{
             $token->save();
             $success = [
                 'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
+                'token_type' => AuthServiceProvider::TOKEN_TYPE,
                 'expires_at' => Carbon::parse(
                     $token->expires_at
                 )->toDateTimeString()
@@ -60,7 +67,7 @@ class UserController extends Controller{
 
             return response()->json(['success' => $success],Status::SUCCESS_OK);
         }else{
-            return response()->json(['error' => 'Unauthorized'],Status::ERROR_UNAUTHORIZED);
+            return response()->json(['error' => __('messages.unauthorized')],Status::ERROR_UNAUTHORIZED);
         }
     }
 
@@ -85,7 +92,12 @@ class UserController extends Controller{
             'threads' => 2,
         ]);
         //set activation token
-        $user = User::create(array_merge($input,['activation_token' => str_random(60)]));
+        $user = new User([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => $input['password'],
+            'activation_token' => str_random(60)
+        ]);
         $user->notify(new SignupActivate($user));
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
@@ -93,15 +105,21 @@ class UserController extends Controller{
     }
 
     /**
+     * here we are activation user or unactive it
      * @param string $token
      * @return \Illuminate\Http\JsonResponse
      */
     public function activate(string $token){
         $user = User::where('activation_token',$token)->first();
         if(!$user){
-            return response()->json(['message' => __('messages.token_wrong')]);
+            return response()->json(['message' => __('messages.token_wrong')],Status::ERROR_UNAUTHORIZED);
         }
 
+        $user->is_active = TRUE;
+        $user->activation_token = '';
+        $user->save();
+
+        return response()->json(['message' => __('messages.user_activated'),'user' => $user],Status::SUCCESS_OK);
     }
 
     /**
@@ -111,4 +129,6 @@ class UserController extends Controller{
         $user = Auth::user();
         return response()->json(['success' => $user],Status::SUCCESS_OK);
     }
+
+
 }

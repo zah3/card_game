@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
+    $user = new \App\Http\Models\User();
+    $user->name = 'aa';
+    $user->email = 'zah3@tlen.pl';
+    $user->password = 'aaa';
+    $user->activation_token = str_random(60);
+    $user->save();
+    $user->notify(new \App\Notifications\SignupActivate($user));
     return view('welcome');
 });

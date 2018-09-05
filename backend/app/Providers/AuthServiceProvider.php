@@ -11,6 +11,8 @@ class AuthServiceProvider extends ServiceProvider
     public const EXPIRE_TOKENS_IN_DAYS = 1;
     public const EXPIRE_TOKENS_WITH_REMEMBER_ME_IN_DAYS = 7;
     public const REFRESH_EXPIRE_TOKENS_IN_DAYS = 30;
+    public const TOKEN_TYPE = 'Bearer';
+    public const TOKEN_NAME = 'Card_game';
     /**
      * The policy mappings for the application.
      *

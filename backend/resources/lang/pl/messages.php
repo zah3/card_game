@@ -6,5 +6,8 @@
  * Time: 09:50
  */
 return [
+    'unauthorized' => 'Brak dostępu dla nieautoryzowanych użytkowników.',
     'token_wrong' => 'Podany token jest nieprawidłowy.',
+    'user_activated' => 'Twoje konto zostało poprawnie aktywowane.',
+    'user_logged_out' => 'Nastąpiło poprawne wylogowanie.',
 ];

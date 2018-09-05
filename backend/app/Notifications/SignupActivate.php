@@ -11,7 +11,7 @@ class SignupActivate extends Notification
 {
     use Queueable;
 
-    private $url = '/api/auth/signup/activate/';
+    private $url = '/api/register/activate/';
 
     /**
      * Create a new notification instance.
