@@ -67,7 +67,7 @@ class UserController extends Controller{
 
             return response()->json(['success' => $success],Status::SUCCESS_OK);
         }else{
-            return response()->json(['error' => __('messages.unauthorized')],Status::ERROR_UNAUTHORIZED);
+            return response()->json(['error' => __('messages.email_password_wrong')],Status::ERROR_UNAUTHORIZED);
         }
     }
 
@@ -98,6 +98,7 @@ class UserController extends Controller{
             'password' => $input['password'],
             'activation_token' => str_random(60)
         ]);
+        $user->save();
         $user->notify(new SignupActivate($user));
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;

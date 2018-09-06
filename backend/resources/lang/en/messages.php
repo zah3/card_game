@@ -11,4 +11,5 @@ return [
     'token_wrong' => 'This activation token is invalid',
     'user_activated' => 'Your account has been activated successfully.',
     'user_logged_out' => 'Successfully logged out.',
+    'email_password_wrong' => 'Email or password are not correct',
 ];

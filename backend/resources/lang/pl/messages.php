@@ -10,4 +10,6 @@ return [
     'token_wrong' => 'Podany token jest nieprawidłowy.',
     'user_activated' => 'Twoje konto zostało poprawnie aktywowane.',
     'user_logged_out' => 'Nastąpiło poprawne wylogowanie.',
+    'email_password_wrong' => 'Email lub hasło jest nieprawidłowe.',
+
 ];
