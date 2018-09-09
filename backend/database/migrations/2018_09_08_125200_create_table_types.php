@@ -17,7 +17,7 @@ class CreateTableTypes extends Migration
             'types', function (Blueprint $table) {
             $table->collation = 'utf8_general_ci';
             $table->increments('t_id');
-            $table->char('t_name',200)->nullable(false)->unique();
+            $table->char('t_deleted_at',200)->nullable(false)->unique();
             $table->timestamp('t_created_at')->useCurrent();
             $table->timestamp('t_updated_at')->default(\Illuminate\Support\Facades\DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('t_deleted_at')->nullable();
@@ -31,6 +31,6 @@ class CreateTableTypes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('side_skils');
+        Schema::dropIfExists('types');
     }
 }

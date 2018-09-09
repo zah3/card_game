@@ -35,6 +35,6 @@ class CreateTableSideSkills extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('side_skils');
+        Schema::dropIfExists('skill_sides');
     }
 }

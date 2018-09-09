@@ -35,6 +35,6 @@ class CreateTableMainSkills extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main_skils');
+        Schema::dropIfExists('skill_mains');
     }
 }
