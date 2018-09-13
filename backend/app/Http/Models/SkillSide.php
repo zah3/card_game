@@ -10,18 +10,26 @@ class SkillSide extends Model
 {
     use SoftDeletes;
 
-    const CREATED_AT = 'ss_created_at';
-    const UPDATED_AT = 'ss_updated_at';
-    const DELETED_AT = 'ss_deleted_at';
+    const CREATED_AT = self::PREFIX.'created_at';
+    const UPDATED_AT = self::PREFIX.'updated_at';
+    const DELETED_AT = self::PREFIX.'deleted_at';
+
+    public const PREFIX = 'ss_';
 
     protected $dates = [
-        'ss_created_at','ss_updated_at','ss_updated_at'
+        self::PREFIX.'created_at',
+        self::PREFIX.'updated_at',
+        self::PREFIX.'updated_at'
     ];
 
     protected $fillable = [
-        'ss_name',
+        self::PREFIX.'name',
     ];
 
-    protected $table = 'skill_side';
-    protected $primaryKey = 'ss_id';
+    protected $table = 'skill_sides';
+    protected $primaryKey = self::PREFIX.'id';
+
+    public function type(){
+        return $this->belongsTo(Type::class);
+    }
 }

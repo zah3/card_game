@@ -23,7 +23,7 @@ class CreateTableMainSkills extends Migration
             $table->timestamp('sm_updated_at')->default(\Illuminate\Support\Facades\DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('sm_deleted_at')->nullable();
 
-            $table->foreign('sm_skill_type_id')->references('t_id')->on('types')->onDelete('set null')->onUpdate('Cascade');
+            $table->foreign('sm_skill_type_id')->references('t_id')->on('types')->onUpdate('Cascade');
 
         });
     }

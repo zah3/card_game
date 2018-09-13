@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\{
     Model,SoftDeletes
 };
 
-class Type extends Model
+class UserCards extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Type extends Model
     const UPDATED_AT = self::PREFIX.'updated_at';
     const DELETED_AT = self::PREFIX.'deleted_at';
 
-    public const PREFIX = 't_';
+    public const PREFIX = 'uc_';
 
     protected $dates = [
         self::PREFIX.'created_at',
@@ -23,21 +23,22 @@ class Type extends Model
     ];
 
     protected $fillable = [
-        self::PREFIX.'name'
+        self::PREFIX.'level',
+        self::PREFIX.'hp',
+        self::PREFIX.'hp',
+        self::PREFIX.'def',
+        self::PREFIX.'critical',
+        self::PREFIX.'critical_chance',
+        self::PREFIX.'block_chance',
+        self::PREFIX.'accuracy',
+        self::PREFIX.'reflection',
     ];
 
-    protected $table = 'types';
     protected $primaryKey = self::PREFIX.'id';
 
-    public function skillSide(){
-      //  return $this->hasMany(SkillSide::class,);
-    }
+    protected $table = 'user_cards';
 
-    public function skillMain(){
-        //return $this->hasMany(SkillMain::class,self::PREFIX.'');
-    }
+    public const TABLE_NAME = 'user_cards';
 
-    public function cards(){
-        return $this->hasMany(Card::class,Type::PREFIX.'type_id',self::PREFIX.'id');
-    }
+
 }

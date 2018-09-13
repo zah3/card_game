@@ -18,9 +18,9 @@ class CreateCardsTable extends Migration
             'cards', function (Blueprint $table) {
             $table->collation = 'utf8_general_ci';
             $table->increments('c_id');
-            $table->unsignedInteger('c_main_skill_id')->nullable();
+            $table->unsignedInteger('c_main_skill_id')->nullable(false);
             $table->unsignedInteger('c_side_skill_id')->nullable();
-            $table->unsignedInteger('c_type_id')->nullable();
+            $table->unsignedInteger('c_type_id')->nullable(false);
             $table->char('c_name',200)->nullable(false)->unique();
             $table->unsignedSmallInteger('c_hp')->nullable(false)->default(100);
             $table->unsignedSmallInteger('c_dmg')->nullable(false)->default(40);
@@ -34,9 +34,9 @@ class CreateCardsTable extends Migration
             $table->timestamp('c_updated_at')->default(DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('c_deleted_at')->nullable();
 
-            $table->foreign('c_main_skill_id')->references('sm_id')->on('skill_mains')->onDelete('set null')->onUpdate('Cascade');
-            $table->foreign('c_side_skill_id')->references('ss_id')->on('skill_sides')->onDelete('set null')->onUpdate('Cascade');
-            $table->foreign('c_type_id')->references('t_id')->on('types')->onDelete('set null')->onUpdate('Cascade');
+            $table->foreign('c_main_skill_id')->references('sm_id')->on('skill_mains')->onUpdate('Cascade');
+            $table->foreign('c_side_skill_id')->references('ss_id')->on('skill_sides')->onUpdate('Cascade');
+            $table->foreign('c_type_id')->references('t_id')->on('types')->onUpdate('Cascade');
         });
     }
 

@@ -23,7 +23,7 @@ class CreateTableSideSkills extends Migration
             $table->timestamp('ss_updated_at')->default(\Illuminate\Support\Facades\DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('ss_deleted_at')->nullable();
 
-            $table->foreign('ss_skill_type_id')->references('t_id')->on('types')->onDelete('set null')->onUpdate('Cascade');
+            $table->foreign('ss_skill_type_id')->references('t_id')->on('types')->onUpdate('Cascade');
 
         });
     }

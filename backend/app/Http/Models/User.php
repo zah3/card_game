@@ -31,4 +31,9 @@ class User extends Authenticatable
         'password', 'remember_token','activation_token'
     ];
 
+    public function baseCards(){
+        return $this->belongsToMany(Card::class,UserCards::TABLE_NAME,'uc_user_id','uc_card_id','id','c_id');
+    }
+
+
 }

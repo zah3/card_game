@@ -24,3 +24,12 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::post('details','API\UserController@details');
 });
 
+/**
+ * route for cards
+ */
+Route::
+//middleware('auth:api')->
+prefix('cards')->group(function(){
+    Route::get('/','API\CardController@index');
+});
+

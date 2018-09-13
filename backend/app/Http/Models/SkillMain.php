@@ -10,18 +10,26 @@ class SkillMain extends Model
 {
     use SoftDeletes;
 
-    const CREATED_AT = 'sm_created_at';
-    const UPDATED_AT = 'sm_updated_at';
-    const DELETED_AT = 'sm_deleted_at';
+    const CREATED_AT = self::PREFIX.'created_at';
+    const UPDATED_AT = self::PREFIX.'updated_at';
+    const DELETED_AT = self::PREFIX.'deleted_at';
+
+    public const PREFIX = 'sm_';
 
     protected $dates = [
-        'sm_created_at','sm_updated_at','sm_updated_at'
+        self::PREFIX.'created_at',
+        self::PREFIX.'updated_at',
+        self::PREFIX.'updated_at'
     ];
 
     protected $fillable = [
-        'sm_name',
+        self::PREFIX.'name',
     ];
 
-    protected $table = 'skill_main';
-    protected $primaryKey = 'sm_id';
+    protected $table = 'skill_mains';
+    protected $primaryKey = self::PREFIX.'id';
+
+    public function type(){
+        return $this->belongsTo(Type::class);
+    }
 }
