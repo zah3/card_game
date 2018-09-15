@@ -31,5 +31,9 @@ Route::
 //middleware('auth:api')->
 prefix('cards')->group(function(){
     Route::get('/','API\CardController@index');
+    Route::get('/show/{id}','API\CardController@show');
+    Route::post('/store','API\CardController@store');
+    Route::put('/update','API\CardController@update');
+    Route::delete('/destroy/{id}','API\CardController@destroy');
 });
 

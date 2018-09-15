@@ -3,9 +3,13 @@
 namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\{
-    Model,SoftDeletes
+    Model, Relations\BelongsTo, SoftDeletes
 };
 
+/**
+ * Class UserCards
+ * @package App\Http\Models
+ */
 class UserCards extends Model
 {
     use SoftDeletes;
@@ -40,5 +44,7 @@ class UserCards extends Model
 
     public const TABLE_NAME = 'user_cards';
 
-
+//    public function user() : BelongsTo {
+//        return $this->belongsTo(User::class,self::PREFIX.'user_id','id');
+//    }
 }

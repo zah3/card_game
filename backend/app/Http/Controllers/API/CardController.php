@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Helpers\Status;
 use App\Http\Models\Card;
 use App\Http\Models\User;
+use const Grpc\STATUS_CANCELLED;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +20,8 @@ class CardController extends Controller
      */
     public function index()
     {
-        $model = User::find(38)->first();
-        $cards = $model->baseCards;
-        return response(['cards' => $cards],Status::SUCCESS_OK);
+        $models = Card::query()->with('type')->get();
+        return response(['models' => $models],Status::SUCCESS_OK);
     }
 
     /**
@@ -32,7 +32,7 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -43,7 +43,10 @@ class CardController extends Controller
      */
     public function show($id)
     {
-        //
+        $model = Card::query()->with('type')->first();
+        if(!$model)
+            return response(['errors' => __('messages.card.model_not_found')]);
+        return response(compact('model'),Status::SUCCESS_OK);
     }
 
     /**
@@ -66,6 +69,19 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Card::find($id);
+        if(!$model)
+            return response(['errors' => __('messages.card.model_not_found')]);
+        if($model->delete()){
+            return response(compact('model'),Status::SUCCESS_OK);
+        }else{
+            return response(['errors' => $model->errors()]);
+        }
+
+
+    }
+
+    public function validateModel(){
+
     }
 }

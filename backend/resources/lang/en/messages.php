@@ -12,4 +12,9 @@ return [
     'user_activated' => 'Your account has been activated successfully.',
     'user_logged_out' => 'Successfully logged out.',
     'email_password_wrong' => 'Email or password are not correct',
+
+    /**
+     * Card model
+     */
+    'card.model_not_found' => 'Cannot find model.',
 ];

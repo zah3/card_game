@@ -39,6 +39,6 @@ class Card extends Model
     protected $primaryKey = self::PREFIX.'id';
 
     public function type(){
-        return $this->belongsTo(Type::class,Type::PREFIX.'id',self::PREFIX.'card_id');
+        return $this->belongsTo(Type::class,self::PREFIX.'id',Type::PREFIX.'id');
     }
 }
