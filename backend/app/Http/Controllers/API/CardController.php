@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Helpers\Status;
 use App\Http\Models\Card;
 use App\Http\Models\User;
-use const Grpc\STATUS_CANCELLED;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +42,7 @@ class CardController extends Controller
      */
     public function show($id)
     {
-        $model = Card::query()->with('type')->first();
+        $model = Card::query()->with('type')->where('c_id', $id)->first();
         if(!$model)
             return response(['errors' => __('messages.card.model_not_found')]);
         return response(compact('model'),Status::SUCCESS_OK);
@@ -77,11 +76,5 @@ class CardController extends Controller
         }else{
             return response(['errors' => $model->errors()]);
         }
-
-
-    }
-
-    public function validateModel(){
-
     }
 }

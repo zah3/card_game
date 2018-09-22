@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens,Notifiable,SoftDeletes;
+
+    const MESSAGE_USER_SAVED = 'User saved successfully';
 
     protected $dates = [
         'deleted_at'
@@ -53,6 +56,24 @@ class User extends Authenticatable
         return UserCards::query()->where([UserCards::PREFIX . 'user_id' => $user->id])->get();
     }
     /*END RELATIONS*/
+
+    public function activation() : void {
+        $this->is_active = TRUE;
+        $this->activation_token = '';
+        $this->save();
+    }
+
+    public function save(array $options = []) : string {
+        DB::beginTransaction();
+        try{
+            parent::save($options);
+        }catch( \Exception | \Throwable $exception){
+            DB::rollBack();
+            return $exception->getMessage();
+        }
+        DB::commit();
+        return self::MESSAGE_USER_SAVED;
+    }
 
 
 }
