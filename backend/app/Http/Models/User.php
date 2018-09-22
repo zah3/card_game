@@ -63,6 +63,10 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function save(array $options = []) : string {
         DB::beginTransaction();
         try{

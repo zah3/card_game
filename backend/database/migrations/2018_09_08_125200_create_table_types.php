@@ -16,11 +16,11 @@ class CreateTableTypes extends Migration
         Schema::create(
             'types', function (Blueprint $table) {
             $table->collation = 'utf8_general_ci';
-            $table->increments('t_id');
+            $table->increments('id');
             $table->char('t_name',200)->nullable(false)->unique();
-            $table->timestamp('t_created_at')->useCurrent();
-            $table->timestamp('t_updated_at')->default(\Illuminate\Support\Facades\DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
-            $table->timestamp('t_deleted_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(\Illuminate\Support\Facades\DB::raw('NULL on update CURRENT_TIMESTAMP'))->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

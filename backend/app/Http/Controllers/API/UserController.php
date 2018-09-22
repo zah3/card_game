@@ -39,6 +39,7 @@ class UserController extends Controller{
      * @return [string] expires_at
      */
     public function login(Request $request){
+
         //validate some passwords
         $this->validateLoginInputs($request);
         $credentials = request(['email', 'password']);
@@ -47,6 +48,7 @@ class UserController extends Controller{
         if(Auth::attempt($credentials)){
             DB::beginTransaction();
             $user = $request->user();
+            return response()->json(['tokens' => $user->tokens]);
             $tokenResult = $user->createToken(AuthServiceProvider::TOKEN_NAME);
             $token = $tokenResult->token;
             //expires time
