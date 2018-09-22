@@ -3,33 +3,31 @@
 namespace  App\Http\Models;
 
 use Illuminate\Database\Eloquent\{
-    Model,SoftDeletes
+    Model, Relations\BelongsTo, SoftDeletes
 };
 
 class SkillMain extends Model
 {
     use SoftDeletes;
 
-    const CREATED_AT = self::PREFIX.'created_at';
-    const UPDATED_AT = self::PREFIX.'updated_at';
-    const DELETED_AT = self::PREFIX.'deleted_at';
-
-    public const PREFIX = 'sm_';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+    const DELETED_AT = 'deleted_at';
 
     protected $dates = [
-        self::PREFIX.'created_at',
-        self::PREFIX.'updated_at',
-        self::PREFIX.'updated_at'
+        'created_at',
+        'updated_at',
+        'updated_at'
     ];
 
     protected $fillable = [
-        self::PREFIX.'name',
+        'name',
     ];
 
     protected $table = 'skill_mains';
-    protected $primaryKey = self::PREFIX.'id';
+    protected $primaryKey = 'id';
 
-    public function type(){
-        return $this->belongsTo(Type::class);
+    public function type() : BelongsTo {
+        return $this->belongsTo(Type::class,'type_id','id');
     }
 }

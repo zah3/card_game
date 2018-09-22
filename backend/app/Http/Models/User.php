@@ -45,7 +45,7 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function baseCards() : BelongsToMany {
-        return $this->belongsToMany(Card::class,UserCards::TABLE_NAME,'uc_user_id','uc_card_id','id','c_id');
+        return $this->belongsToMany(Card::class,UserCards::TABLE_NAME,'user_id','card_id','id','id');
     }
 
     /**

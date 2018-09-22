@@ -14,31 +14,30 @@ class UserCards extends Model
 {
     use SoftDeletes;
 
-    const CREATED_AT = self::PREFIX.'created_at';
-    const UPDATED_AT = self::PREFIX.'updated_at';
-    const DELETED_AT = self::PREFIX.'deleted_at';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+    const DELETED_AT = 'deleted_at';
 
-    public const PREFIX = 'uc_';
 
     protected $dates = [
-        self::PREFIX.'created_at',
-        self::PREFIX.'updated_at',
-        self::PREFIX.'deleted_at'
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     protected $fillable = [
-        self::PREFIX.'level',
-        self::PREFIX.'hp',
-        self::PREFIX.'hp',
-        self::PREFIX.'def',
-        self::PREFIX.'critical',
-        self::PREFIX.'critical_chance',
-        self::PREFIX.'block_chance',
-        self::PREFIX.'accuracy',
-        self::PREFIX.'reflection',
+        'level',
+        'hp',
+        'hp',
+        'def',
+        'critical',
+        'critical_chance',
+        'block_chance',
+        'accuracy',
+        'reflection',
     ];
 
-    protected $primaryKey = self::PREFIX.'id';
+    protected $primaryKey = 'id';
 
     protected $table = 'user_cards';
 
