@@ -43,8 +43,9 @@ class CardController extends Controller
     public function show($id)
     {
         $model = Card::query()->with('type')->where('c_id', $id)->first();
-        if(!$model)
+        if(!$model){
             return response(['errors' => __('messages.card.model_not_found')]);
+        }
         return response(compact('model'),Status::SUCCESS_OK);
     }
 

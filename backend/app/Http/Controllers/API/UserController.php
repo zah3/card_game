@@ -20,7 +20,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{
     Auth, DB, Validator
 };
-use Monolog\Handler\SyslogUdp\UdpSocket;
 
 /**
  * Class UserController
@@ -38,8 +37,7 @@ class UserController extends Controller{
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function login(Request $request){
-
+    public function login(Request $request,User $user){
         //validate some passwords
         $this->validateLoginInputs($request);
         $credentials = request(['email', 'password']);
@@ -88,7 +86,9 @@ class UserController extends Controller{
             'password' => 'required',
             'confirm_password' => 'required|same:password',
         ]);
-        if($validator->fails())         return response()->json(['error' => $validator->errors()], Status::ERROR_UNAUTHORIZED);
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()], Status::ERROR_UNAUTHORIZED);
+        }
 
         $input = $request->all();
         $input['password'] = new Hasher($input['password']);
@@ -100,7 +100,9 @@ class UserController extends Controller{
             'activation_token' => str_random(60)
         ]);
         $savedMessage = $user->save();
-        if($savedMessage !== User::MESSAGE_USER_SAVED)   return response()->json(['fail' => $savedMessage],Status::SUCCESS_OK);
+        if($savedMessage !== User::MESSAGE_USER_SAVED){
+            return response()->json(['fail' => $savedMessage],Status::SUCCESS_OK);
+        }
 
         $user->notify(new SignupActivate($user));
         $success['token'] = $user->createToken('MyApp')->accessToken;
